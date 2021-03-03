@@ -16,17 +16,25 @@ connection.connect(err => {
     output();
 });
 
+var questions = [
+  {
+    type: 'list',
+    name: 'startOff',
+    message: 'Choose which one you\'d like to do',
+    choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 
+    'add a role', 'add an employee', 'update an employee role']
+  }
+    //Validate here
+];
 /////////////////////////
 inquirer
-.prompt([
-    /* Pass your questions in here */
-  ])
+.prompt(questions)
   .then(answers => {
-    // Use user feedback for... whatever!!
+    console.log(JSON.stringify(answers, null, '  '));
   })
   .catch(error => {
     if(error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
+      console.log('There is an error somewhere.');// Prompt couldn't be rendered in the current environment
     } else {
       // Something else went wrong
     }
