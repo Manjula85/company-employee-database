@@ -1,0 +1,32 @@
+{
+  "name": "company-employee-database",
+  "version": "1.0.0",
+  "description": "Get employee details in the company",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "sqlite3 db/company_employees.db < db/schema.sql",
+    "seed": "sqlite3 db/company_employees.db < db/seeds.sql",
+    "db": "sqlite3 db/company_employees.db",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manjula85/company-employee-database.git"
+  },
+  "author": "Manjula",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manjula85/company-employee-database/issues"
+  },
+  "homepage": "https://github.com/Manjula85/company-employee-database#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.0.0",
+    "mysql2": "^2.2.5",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

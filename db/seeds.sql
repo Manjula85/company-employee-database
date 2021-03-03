@@ -1,11 +1,11 @@
-INSERT INTO department (name)
+INSERT INTO department (names)
 VALUES
   ('Sales'),('Sales'),('Engineering'),
   ('Engineering'),('Finance'),
   ('Legal'),('Legal');
 
-INSERT INTO role (title, salary)
-VARCHAR
+INSERT INTO roles (title, salary)
+VALUES
   ('Sales Lead', 100000),
   ('Salesperson', 80000),
   ('Lead Engineer', 150000),

@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const inquirer = require('inquirer');
 
 //Create the connection to database
 const connection = mysql.createConnection({
@@ -15,8 +16,25 @@ connection.connect(err => {
     output();
 });
 
+/////////////////////////
+inquirer
+.prompt([
+    /* Pass your questions in here */
+  ])
+  .then(answers => {
+    // Use user feedback for... whatever!!
+  })
+  .catch(error => {
+    if(error.isTtyError) {
+      // Prompt couldn't be rendered in the current environment
+    } else {
+      // Something else went wrong
+    }
+  });
+////////////////////////
+
 output = () => {
-    console.log('Select all the products...\n');
+    console.log('Select all the department...\n');
     connection.query('SELECT * FROM department', function(err, res) {
         if(err) throw err;
         //Show all the results
