@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 
 //Create the connection to database
 const connection = mysql.createConnection({
@@ -35,9 +36,11 @@ const inqStart = function(){
               break;
             case 'view all roles': 
               console.log('I made the connection!!!roles');
+              dbAllRoles();
               break;
             case 'view all employees': 
               console.log('I made the connection!!!employees');
+              dbAllDeptEmployees();
               break;
             case 'add a department': 
               console.log('I made the connection!!!add a department');              
@@ -58,14 +61,13 @@ const inqStart = function(){
   });
 };
 
-function timer(){
+function restartQ(){
     return new Promise(resolve => {
         setTimeout(() => {
           inqStart();
         }, 0); //0 sec delay
     });
 }
-
 
 inqStart();  // <-- Everything starts here
 
@@ -76,8 +78,40 @@ dbAllDept = () => {
     connection.query('SELECT * FROM department', function(err, res) {
         if(err) throw err;
         //Show all the results
-        console.log(res);
+        console.table(res);
 
-        connection.end();
+        //restartQ();
+
+        connection.end();  //Does this ever get executed then?
+        restartQ();
     });
+};
+
+dbAllRoles = () => {
+  console.log('Select all the roles...\n');
+  connection.query('SELECT * FROM roles', function(err, res) {
+      if(err) throw err;
+      //Show all the results
+      console.table(res);
+
+      //restartQ();
+
+      connection.end();  //Does this ever get executed then?
+      restartQ();
+  });
+};
+
+dbAllEmployees = () => {
+  console.log('Select all the employees...\n');
+  connection.query('SELECT * FROM employees', function(err, res) {
+      if(err) throw err;
+      //Show all the results
+      console.table(res);
+
+      //restartQ();
+
+      connection.end();  //Does this ever get executed then?
+
+      restartQ();
+  });
 };
