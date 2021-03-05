@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
+const dbAllDept = require('./dbQueries/queries');
 
 //Create the connection to database
 const connection = mysql.createConnection({
@@ -29,6 +30,7 @@ const inqStart = function(){
       ])
       .then(ans => {
           console.log(ans.allOptions);
+          dbAllDept();
           switch(ans.allOptions){
             case 'view all departments': 
               console.log('I made the connection!!!departments');
@@ -61,13 +63,6 @@ const inqStart = function(){
   });
 };
 
-function restartQ(){
-    return new Promise(resolve => {
-        setTimeout(() => {
-          inqStart();
-        }, 0); //0 sec delay
-    });
-}
 
 inqStart();  // <-- Everything starts here
 
@@ -80,38 +75,24 @@ dbAllDept = () => {
         //Show all the results
         console.table(res);
 
-        //restartQ();
+        inqStart();
 
-        connection.end();  //Does this ever get executed then?
-        restartQ();
+        //connection.end();  //Does this ever get executed then?
+
     });
 };
 
-dbAllRoles = () => {
-  console.log('Select all the roles...\n');
-  connection.query('SELECT * FROM roles', function(err, res) {
-      if(err) throw err;
-      //Show all the results
-      console.table(res);
-
-      //restartQ();
-
-      connection.end();  //Does this ever get executed then?
-      restartQ();
-  });
-};
-
-dbAllEmployees = () => {
+dbAllDeptEmployees = () => {
   console.log('Select all the employees...\n');
-  connection.query('SELECT * FROM employees', function(err, res) {
+  connection.query('SELECT * FROM employee', function(err, res) {
       if(err) throw err;
       //Show all the results
       console.table(res);
 
+      inqStart();
+
+      //connection.end();  //Does this ever get executed then?
+
       //restartQ();
-
-      connection.end();  //Does this ever get executed then?
-
-      restartQ();
   });
 };
