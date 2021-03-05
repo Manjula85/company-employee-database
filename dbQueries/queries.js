@@ -1,3 +1,4 @@
+//NOT LINKED
 
  module.exports = function(obj, ...props) { 
     dbAllRoles= () => {
@@ -8,9 +9,6 @@
             console.table(res);
     
             inqStart();
-    
-            //connection.end();  //Does this ever get executed then?
-            //restartQ();
         });
     };
 }
