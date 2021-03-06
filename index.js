@@ -1,134 +1,194 @@
-const mysql = require('mysql2');
-const inquirer = require('inquirer');
-const cTable = require('console.table');
+const mysql = require("mysql2/promise");
+const inquirer = require("inquirer");
+const cTable = require("console.table");
 //const dbAllDept = require('./dbQueries/queries');
 
+let connection = null;
 //Create the connection to database
-const connection = mysql.createConnection({
-    host: 'localhost',
-    post: 3306,
-    user: 'root',
-    password: '*GetDone21$#',
-    database: 'company_employees'    
-});
+async function main() {
+  connection = await mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "*GetDone21$#",
+    database: "company_employees",
+  });
 
-connection.connect(err => {
-    if(err) throw err;
-    console.log('connected as id ' + connection.threadId);
-});
+  connection.connect((err) => {
+    if (err) throw err;
+    console.log("connected as id " + connection.threadId);
+  });
+}
 
-const inqStart = function(){
+const inqStart = function () {
   inquirer
-      .prompt([
-          {
-              type: 'list',
-              name: 'allOptions',
-              message: 'What please choose which action you would like to perform.',
-              choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 
-              'add a role', 'add an employee', 'update an employee role', 'exit' /*EXTRA*/]
-          }
-      ])
-      .then(ans => {
-          console.log('\n');
+    .prompt([
+      {
+        type: "list",
+        name: "allOptions",
+        message: "What please choose which action you would like to perform.",
+        choices: [
+          "view all departments",
+          "view all roles",
+          "view all employees",
+          "add a department",
+          "add a role",
+          "add an employee",
+          "update an employee role",
+          "delete a department",
+          "exit" /*EXTRA*/,
+        ],
+      },
+    ])
+    .then((ans) => {
+      switch (ans.allOptions) {
+        case "view all departments":
+          console.log("I made the connection!!!departments");
           dbAllDept();
-          switch(ans.allOptions){
-            case 'view all departments': 
-              console.log('I made the connection!!!departments');
-              dbAllDept();
-              break;
-            case 'view all roles': 
-              console.log('I made the connection!!!roles');
-              dbAllRoles();
-              break;
-            case 'view all employees': 
-              console.log('I made the connection!!!employees');
-              dbAllEmployees();
-              break;
-            case 'add a department': 
-              console.log('I made the connection!!!add a department');    
-              dbAddDept();          
-              break;
-            case 'add a role': 
-              console.log('I made the connection!!!add a role');
-              dbAddRole();  
-              break;
-            case 'add an employee': 
-              console.log('I made the connection!!!add an employee');
-              dbAddEmployee();  
-              break;
-            case 'update an employee role': 
-              console.log('I made the connection!!!update an employee role');
-              //dbUpdateEmployeeRole();  
-              break;
-            default:
-              console.log('Almost there');
-          };
-  });
-};
-
-inqStart();  // <-- Everything starts here
-
-////////////////////////
-
-dbAllRoles= () => {
-  console.log('Select all the roles...\n');
-  connection.query('SELECT * FROM roles', function(err, res) {
-      if(err) throw err;
-      //Show all the results
-      console.table(res);
-
-      inqStart();
-  });
-};
-
-dbAllDept = () => {
-    console.log('Select all the department...\n');
-    connection.query('SELECT * FROM department', function(err, res) {
-        if(err) throw err;
-        //Show all the results
-        console.table(res);
-
-        inqStart();
+          break;
+        case "view all roles":
+          console.log("I made the connection!!!roles");
+          dbAllRoles();
+          break;
+        case "view all employees":
+          console.log("I made the connection!!!employees");
+          dbAllEmployees();
+          break;
+        case "add a department":
+          console.log("I made the connection!!!add a department");
+          dbAddDept();
+          break;
+        case "add a role":
+          console.log("I made the connection!!!add a role");
+          dbAddRole();
+          break;
+        case "add an employee":
+          console.log("I made the connection!!!add an employee");
+          dbAddEmployee();
+          break;
+        case "update an employee role":
+          console.log("I made the connection!!!update an employee role");
+          dbUpdateEmployeeRole();
+          break;
+        case "delete a department":
+          console.log("I made the connection!!!update an employee role");
+          dbDeleteDept();
+          break;
+        default:
+          console.log("Almost there");
+          dbConnectionEnd();
+      }
     });
 };
 
-dbAllEmployees = () => {
-  console.log('Select all the employees...\n');
-  connection.query('SELECT * FROM employee', function(err, res) {
-      if(err) throw err;
-      //Show all the results
-      console.table(res);
+main();
+inqStart(); // <-- Everything starts here
 
-      inqStart();
-  });
+////////////////////////
+
+const dbAllRoles = async () => {
+  console.log("Select all the roles...");
+
+  try {
+    const [rows, fields] = await connection.execute("SELECT * FROM roles");
+    console.log("\n");
+    //Show all the results
+    console.table(rows);
+  } catch (error) {
+    console.log("Error: " + error);
+  }
+
+  inqStart();
+};
+
+const dbConnectionEnd = () => {};
+
+const dbAllDept = async () => {
+  console.log("Select all the departments...");
+
+  try {
+    const [rows, fields] = await connection.execute("SELECT * FROM department");
+    console.log("\n");
+    console.table(rows);
+  } catch (error) {
+    console.log("Error: " + error);
+  }
+
+  inqStart();
+};
+
+const dbAllEmployees = async () => {
+  console.log("Select all the employees...");
+
+  try {
+    const [rows, fields] = await connection.execute("SELECT * FROM employee");
+    console.log("\n");
+    console.table(rows);
+  } catch (error) {
+    console.log("Error: " + error);
+  }
+
+  inqStart();
 };
 
 //Add a new Department
-dbAddDept = () => {
-  console.log('Add a new dept...\n');
+const dbAddDept = async () => {
+  console.log("Add a new dept...");
 
-  const result = 'readsdfsdfsdf';
+  /////
+  await inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "names",
+        message: "Enter new department name here: ",
+      },
+    ])
+    .then(async ({ names }) => {
+      try {
+        const [
+          rows,
+          fields,
+        ] = await connection.execute(
+          "INSERT INTO department (names) VALUES (?);",
+          [names]
+        );
+        console.log("\n");
+        console.table(rows);
+      } catch (error) {
+        console.log("Error: " + error);
+      }
+    });
+  /////
 
-  inquirer.prompt([
-    {
-      type: 'input',
-      name: 'names',
-      message: 'Enter new department name here: '
-    }
-  ]).then(ans => {
-    result = ans.names;
-  });
-   
-  const querry = 'INSERT INTO department (names) VALUES ("'+result+'")';
+  inqStart();
+};
 
-  connection.query(querry, function(err, res) {
-      if(err){
-        console.log(err);
-        throw err;
-      } 
-      //Show all the results
-      console.table(res);
+const dbDeleteDept = async ()=> {
 
-      inqStart();
-  });
+  await inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "departmentDel",
+        message: "Which department are you deleting? ",
+      },
+    ])
+    .then(async ({ departmentDel }) => {
+      try {
+        const [
+          rows,
+          fields,
+        ] = await connection.execute(
+          `DELETE FROM department WHERE names=?`,
+          [departmentDel]
+        );
+        console.log("\n");
+        console.table(rows);
+      } catch (error) {
+        console.log("Error: " + error);
+      }
+    });
+
+  inqStart();
 };
