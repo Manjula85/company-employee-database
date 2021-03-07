@@ -6,23 +6,14 @@ To create a Notepad where one can store, edit and delete data. The project uses 
 
 ## Built with
 * JavaScript
-* Node
-* HTML
-* CSS
-* Express
+* MySql database
 
-## Functionality
-
-### initial
-![](images/initial.PNG)
-
-### Edit and Save button
-![](images/editAndSaveButton.PNG)
-
-### New data
-![](images/newData.PNG)
+## npm modules
+* mqsql2/promise
+* inquirer
+* console.table
 
 ## Relavent links
-Site URL: https://manjula85.github.io/NoteTaker-Manjula/
+Walkthrough video: https://drive.google.com/file/d/1B39Qpu6QZufQ06cKotiyc8vduEeBddz3/view
 
 Git hub link: https://github.com/Manjula85/NoteTaker-Manjula
