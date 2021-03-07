@@ -36,7 +36,9 @@ const inqStart = function () {
           "update an employee role",
           "view employee by manager",
           "view employee by department",
-          "delete a department",
+          "remove a department",
+          "remove a role",
+          "remove an employee",
           "exit",
         ],
       },
@@ -44,51 +46,39 @@ const inqStart = function () {
     .then((ans) => {
       switch (ans.allOptions) {
         case "view all departments":
-          console.log("I made the connection!!!departments");
           dbAllDept();
           break;
         case "view all roles":
-          console.log("I made the connection!!!roles");
           dbAllRoles();
           break;
         case "view all employees":
-          console.log("I made the connection!!!employees");
           dbAllEmployees();
           break;
         case "add a department":
-          console.log("I made the connection!!!add a department");
           dbAddDept();
           break;
         case "add a role":
-          console.log("I made the connection!!!add a role");
           dbAddRole();
           break;
         case "add an employee":
-          console.log("I made the connection!!!add an employee");
           dbAddEmployee();
           break;
         case "update an employee role":
-          console.log("I made the connection!!!update an employee role");
           dbUpdateEmployeeRole();
           break;
         case "view employee by manager":
-          console.log("I made the connection!!!view employee by manager");
           dbViewEmployeeByManager();
           break;
         case "view employee by department":
-          console.log("I made the connection!!!view employee by department");
           dbViewEmployeeByDepartment();
           break;
-        case "delete a department":
-          console.log("I made the connection!!!remove a department");
+        case "remove a department":
           dbDeleteDept();
           break;
-        case "delete a role":
-          console.log("I made the connection!!!remove a role");
+        case "remove a role":
           dbDeleteRole();
           break;
-        case "delete an employee":
-          console.log("I made the connection!!!remove an employee");
+        case "remove an employee":
           dbDeleteEmployee();
           break;
         case "exit":
